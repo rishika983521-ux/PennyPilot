@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102c24">
+
+    <meta name="description"
+        content="FinGrow - Build better financial habits, track expenses and grow your wealth.">
+
+    <title>FinGrow | Your Money, Your Future</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- NOTIFICATION -->
+    <div id="toast" class="toast" role="status"></div>
+
+    <!-- LOGIN AND REGISTRATION PAGE -->
+    <main id="auth-screen" class="auth-wrap">
+
+        <section class="auth-brand">
+
+            <div class="brand-mark">PP</div>
+
+            <p class="eyebrow">MONEY WITH INTENTION</p>
+
+            <h1>
+                Small habits.<br>
+                <em>Stronger future.</em>
+            </h1>
+
+            <p>
+                Manage your money, control your spending,
+                build saving habits and track your wealth
+                with PennyPilot.
+            </p>
+
+            <div class="auth-stats">
+
+                <div>
+                    <strong>01</strong>
+                    <span>Track your money</span>
+                </div>
+
+                <div>
+                    <strong>02</strong>
+                    <span>Build good habits</span>
+                </div>
+
+                <div>
+                    <strong>03</strong>
+                    <span>Grow your wealth</span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="auth-card">
+
+            <div class="auth-tabs">
+
+                <button class="tab active" data-auth-tab="login">
+                    Sign In
+                </button>
+
+                <button class="tab" data-auth-tab="register">
+                    Create Account
+                </button>
+
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="login-form" class="auth-form">
+
+                <h2>Welcome Back!</h2>
+
+                <p class="muted">
+                    Your next good money decision starts here.
+                </p>
+
+                <p class="demo-note">
+                    Sign in with the email and password you used to create your account.
+                </p>
+
+                <label>
+                    Email Address
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Password
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </label>
+
+                <button class="btn primary full" type="submit">
+                    Sign In →
+                </button>
+
+            </form>
+
+            <!-- REGISTRATION FORM -->
+            <form id="register-form" class="auth-form hidden">
+
+                <h2>Create Your Account</h2>
+
+                <p class="muted">
+                    Start your financial journey today.
+                </p>
+
+                <label>
+                    Full Name
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter your full name"
+                        minlength="2"
+                        maxlength="80"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Email Address
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Password
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Create a password"
+                        minlength="10"
+                        required
+                    >
+                </label>
+
+                <button class="btn primary full" type="submit">
+                    Create Account →
+                </button>
+
+            </form>
+
+            <p class="fine-print">
+                Your financial journey starts with one small step.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- MAIN APPLICATION -->
+    <div id="app-shell" class="shell hidden">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <a href="#" class="brand" data-page="dashboard">
+
+                <span class="brand-mark">PP</span>
+
+                <span>
+                    PennyPilot
+                    <small>PERSONAL FINANCE</small>
+                </span>
+
+            </a>
+
+            <div class="side-label">
+                MAIN MENU
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav id="main-nav">
+
+                <button class="nav-item active" data-page="dashboard">
+                    <span>▦</span>
+                    Dashboard
+                </button>
+
+                <button class="nav-item" data-page="transactions">
+                    <span>↕</span>
+                    Income & Expenses
+                </button>
+
+                <button class="nav-item" data-page="habits">
+                    <span>◷</span>
+                    Habit Tracker
+                </button>
+
+                <button class="nav-item" data-page="goals">
+                    <span>◎</span>
+                    Savings Goals
+                </button>
+
+                <button class="nav-item" data-page="wealth">
+                    <span>⌁</span>
+                    Wealth Analytics
+                </button>
+
+                <button class="nav-item" data-page="profile">
+                    <span>⚙</span>
+                    Profile & Settings
+                </button>
+
+                <button
+                    class="nav-item hidden"
+                    id="admin-nav"
+                    data-page="admin"
+                >
+                    <span>▤</span>
+                    Admin Panel
+                </button>
+
+            </nav>
+
+            <!-- SIDEBAR BOTTOM -->
+            <div class="sidebar-bottom">
+
+                <div class="help-card">
+
+                    <span class="help-icon">✳</span>
+
+                    <strong>Keep Growing!</strong>
+
+                    <p>
+                        Small financial habits create
+                        a stronger financial future.
+                    </p>
+
+                </div>
+
+                <button id="logout-btn" class="nav-item logout">
+
+                    <span>↪</span>
+                    Sign Out
+
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <section class="main-area">
+
+            <!-- HEADER -->
+            <header class="topbar">
+
+                <div>
+
+                    <p class="eyebrow" id="date-label">
+                        YOUR FINANCIAL SPACE
+                    </p>
+
+                    <h2 id="page-heading">
+                        Welcome to PennyPilot
+                    </h2>
+
+                </div>
+
+                <div class="topbar-right">
+
+                    <span class="status-pill">
+                        <i></i>
+                        Your Space
+                    </span>
+
+                    <button class="avatar" id="avatar-button">
+                        P
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- DYNAMIC PAGE CONTENT -->
+            <main id="page-content" class="page-content">
+
+                <!-- JavaScript loads dashboard and other pages here -->
+
+            </main>
+
+
+            <!-- FOOTER -->
+            <footer>
+
+                PennyPilot © 2026
+
+                <span>
+                    Build habits, not pressure.
+                </span>
+
+            </footer>
+
+        </section>
+
+    </div>
+
+
+    <!-- JAVASCRIPT FILE -->
+    <script src="app.js" defer></script>
+
+</body>
+
+</html>
