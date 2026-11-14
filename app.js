@@ -1,7 +1,7 @@
 
 // FINGROW - FRONT-END APPLICATION
 
-const API_BASE_URL = "http://localhost:5000/api";
+const DEMO_ACCOUNTS_KEY = "ppDemoAccounts";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -13,7 +13,11 @@ const toast = $("#toast");
 
 let currentUser = null;
 
-let transactions = JSON.parse(localStorage.getItem("fgTransactions") || "[]");
+let transactions = JSON.parse(localStorage.getItem("fgTransactions") || "null") || [
+  { id: 1, description: "Sample allowance", amount: 25000, type: "income", date: "01/11/2026" },
+  { id: 2, description: "Sample groceries", amount: 3200, type: "expense", date: "03/11/2026" },
+  { id: 3, description: "Sample transport", amount: 1200, type: "expense", date: "05/11/2026" }
+];
 let habits = JSON.parse(localStorage.getItem("fgHabits") || "null") || [
   { text: "Track today's expenses", done: false },
   { text: "Review my savings goal", done: false },
@@ -65,23 +69,8 @@ function escapeHTML(value) {
   })[char]);
 }
 
-async function sendAuthRequest(path, data) {
-  let response;
-  try {
-    response = await fetch(`${API_BASE_URL}/auth/${path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-  } catch (error) {
-    throw new Error("Could not reach the server. Make sure the backend is running at http://localhost:5000.");
-  }
-
-  const result = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(result.message || "The request failed. Please try again.");
-  }
-  return result;
+function getDemoAccounts() {
+  return JSON.parse(localStorage.getItem(DEMO_ACCOUNTS_KEY) || "[]");
 }
 
 // AUTH TAB SWITCHING
@@ -116,11 +105,16 @@ $("#register-form").addEventListener("submit", async event => {
   const button = formElement.querySelector('button[type="submit"]');
   button.disabled = true;
   try {
-    const result = await sendAuthRequest("register", { name, email, password });
+    const accounts = getDemoAccounts();
+    if (accounts.some(account => account.email === email)) {
+      throw new Error("An account with this email already exists in this browser.");
+    }
+    accounts.push({ name, email, password });
+    localStorage.setItem(DEMO_ACCOUNTS_KEY, JSON.stringify(accounts));
     formElement.reset();
     document.querySelector('[data-auth-tab="login"]').click();
     $("#login-form").elements.email.value = email;
-    showToast(result.message || "Account created. Please sign in.");
+    showToast("Demo account created in this browser. Please sign in.");
   } catch (error) {
     showToast(error.message);
   } finally {
@@ -145,8 +139,9 @@ $("#login-form").addEventListener("submit", async event => {
   const button = formElement.querySelector('button[type="submit"]');
   button.disabled = true;
   try {
-    const result = await sendAuthRequest("login", { email, password });
-    currentUser = result.user;
+    const account = getDemoAccounts().find(item => item.email === email && item.password === password);
+    if (!account) throw new Error("Email or password not found. Create a demo account in this browser first.");
+    currentUser = { name: account.name, email: account.email };
     formElement.reset();
     openApp();
   } catch (error) {
@@ -589,9 +584,9 @@ function renderProfile() {
       <div class="profile-info">
         <p><strong>Name:</strong> ${escapeHTML(currentUser.name)}</p>
         <p><strong>Email:</strong> ${escapeHTML(currentUser.email)}</p>
-        <p><strong>Account:</strong> SQLite account</p>
+        <p><strong>Account:</strong> Local browser demo account</p>
       </div>
-      <p class="muted">Your account is managed by the backend. Finance tracking data is currently saved in this browser.</p>
+      <p class="muted">Your demo account and finance tracking data are stored in this browser's localStorage and are not secure.</p>
       <button class="btn primary" id="profile-logout">Sign Out</button>
     </section>
   `;
