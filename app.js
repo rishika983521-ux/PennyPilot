@@ -164,6 +164,12 @@ function logout() {
 
 // OPEN APPLICATION
 function openApp() {
+  if (!currentUser) {
+    authScreen.classList.remove("hidden");
+    appShell.classList.add("hidden");
+    return;
+  }
+
   authScreen.classList.add("hidden");
   appShell.classList.remove("hidden");
 
@@ -194,6 +200,12 @@ document.querySelectorAll("[data-page]").forEach(button => {
 });
 
 function showPage(page) {
+  if (!currentUser) {
+    authScreen.classList.remove("hidden");
+    appShell.classList.add("hidden");
+    return;
+  }
+
   if (page === "admin" &&
       (!currentUser || currentUser.email !== "admin@fingrow.demo")) {
     showToast("Demo admin access only.");
